@@ -26,7 +26,7 @@ class ImageList extends Component {
   };
 
   render() {
-    const { images, key, searchInput } = this.props;
+    const { images, searchInput } = this.props;
     {
       console.log(images);
     }
@@ -40,7 +40,7 @@ class ImageList extends Component {
           </GridListTile>
           {images.map((i) => {
             return (
-              <GridListTile key={key} style={this.tileStyle}>
+              <GridListTile key={i.id} style={this.tileStyle}>
                 <img
                   src={i.largeImageURL}
                   alt={i.tag}
