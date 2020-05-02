@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import ImageList from "../image-list/ImageList";
 
 import {
   FormControl,
@@ -12,9 +13,10 @@ import {
 class Search extends React.Component {
   state = {
     searchInput: "",
-    limit: 0,
+    limit: 10,
     apiURL: "https://pixabay.com/api/",
     apiKEY: process.env.REACT_APP_API_KEY,
+    images: [],
   };
 
   handleInputChange = (e) => {
@@ -26,10 +28,12 @@ class Search extends React.Component {
       () => {
         axios
           .get(
-            `${this.state.apiURL}?key=${this.state.apiKEY}&q=${this.state.searchInput}&image_type=photo`
+            `${this.state.apiURL}?key=${this.state.apiKEY}&q=${this.state.searchInput}&image_type=photo&per_page=${this.state.limit}`
           )
           .then((res) => {
-            console.log(res);
+            this.setState({
+              images: res.data.hits,
+            });
           })
           .catch((err) => {
             console.log(err);
@@ -59,6 +63,13 @@ class Search extends React.Component {
             <MenuItem value={50}>50</MenuItem>
           </Select>
         </FormControl>
+        {this.state.images.length > 0 ? (
+          <ImageList
+            images={this.state.images}
+            searchInput={this.state.searchInput}
+            key={this.state.images.id}
+          />
+        ) : null}
       </div>
     );
   }
